@@ -1,0 +1,1 @@
+document.write('<script src="https://zuimaotv.com/template/mac_joawp/js/cp/cpdetail.js?v=20180928" type="text/javascript"></script>');

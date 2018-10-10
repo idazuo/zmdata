@@ -1,0 +1,187 @@
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,minimal-ui">
+<title>{$maccms.site_name}</title>
+      <style>
+        .aaa{
+            width:80px;height:80px;border-radius:80px;
+        }
+    </style>
+<meta name="keywords" content="{$maccms.site_keywords}" />
+<meta name="description" content="{$maccms.site_description}" />  
+<meta name="author" content="muqiao">
+<link rel="shortcut icon" href="{$maccms.path}favicon.ico">
+{include file="public/include"}
+
+</head>
+<body>
+<div class="channel">
+{include file="public/head"}
+<!--幻灯片 -->
+<section>
+		<div id="slider" class="slider swiper-container">
+			<div class="swiper-wrapper">
+{maccms:vod num="6" paging="no" type="all" level="9" order="desc" by="sort"}
+				<div class="swiper-slide ">
+					<a href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}" class="slider-link swiper-lazy" data-background="{$vo.vod_pic_slide|mac_url_img}" tapmode onclick="showDefault('loading')">
+						<div class="bottom">
+							<div class="sub_title">《{$vo.vod_name}》</div>
+						</div>
+					</a>
+				</div>
+{/maccms:vod}
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+</section>
+	<!--热播推荐-->
+<div id="adpic">
+    <span style="position: fixed;right:5px;color:red;z-index:1;font-size:18px;cursor:pointer" id="close">X</span>
+    <a href="http://t.cn/EvWo05a" style="position:fixed;right:15px;z-index:10"><img src="https://wx2.sinaimg.cn/mw690/0060lm7Tly1fuijjlvateg30dw07ie2v.gif" class="aaa" style="display:none"></a>
+    <a href="http://t.cn/Ev0Iw4V" style="position:fixed;right:15px;z-index:10"><img src="https://wx4.sinaimg.cn/mw690/0060lm7Tly1fvdtmw8dvsg30b407ihd1.gif" class="aaa" style="display:none"></a>
+    <a href="http://t.cn/EvWoZCd" style="position:fixed;right:15px;z-index:10"><img src="https://wx1.sinaimg.cn/mw690/0060lm7Tly1fvdtnf4v8ug30b405rtol.gif" class="aaa" style="display:none"></a>
+    <a href="http://t.cn/EvWocIM" style="position:fixed;right:15px;z-index:10"><img src="https://wx4.sinaimg.cn/mw690/0060lm7Tly1fvdtnwor51g309g0f2x6p.gif" class="aaa" style="display:none"></a>
+</div>
+	<section class="mod">
+		<div class="mod-head clearfix">
+        
+			<div class="mod-head-title">
+				<span class="mod-head-name"><svg class="icon" aria-hidden="true"style="font-size: 1.6rem;margin:0 -.1rem 0 -.1rem">
+           <use xlink:href="#icon-fanjutuijian"></use>
+        </svg>热播推荐</span>
+			</div>
+			<a href="{:mac_url('label/top')}" class="change" tapmode onclick="showDefault('loading')"><span class="iconfont icon-location"></span>&nbsp排行榜&nbsp<span class="iconfont icon-right"></span></a>
+		</div>
+		<div class="mod-main clearfix">
+			<div class="mod-row">
+				<ul class="video-list video-small-list clearfix">
+{maccms:vod num="6" type="1,2,3,4" level="8" order="desc" by="time"}
+				    <li class="video-item" tapmode onclick="showDefault('loading')"> <a class="video-link" href="{:mac_url_vod_detail($vo)}" title="{$vo.vod_name}">
+						<div class="_item-pic _item-lazy" data-echo="{$vo.vod_pic_slide|mac_url_img}">
+						<div class="video-duration">{include file="public/serial1"}</div>
+						</div>
+						<div class="video-con">
+						<h2 class="video-con-tit ellipsis-1">{$vo.vod_name}</h2>
+						<p class="video-con-subtitle ellipsis-1"><span style="color: rgb(153, 153, 153); font-family: Arial, microsoft yahei;font-size:14px;">{$vo.vod_content|mac_filter_html}</span><br />
+						</p>
+						</div>
+						</a>
+					</li>
+{/maccms:vod}
+				</ul>
+			</div>
+		</div>
+	</section>
+{maccms:type ids="1,2,3,4" order="asc" by="sort" id="vo5" key="key5"}
+	<section class="mod ">
+		<div class="mod-head clearfix">
+			<div class="mod-head-title">
+				<span class="mod-head-name"><svg class="icon" aria-hidden="true">
+           <use xlink:href="{if condition="$vo5.type_id==1"}#icon-zhibo{elseif condition="$vo5.type_id==2"}#icon-dianshiju{elseif condition="$vo5.type_id==3"}#icon-guixu{else /}#icon-guochandonghuatuijian{/if}"></use>
+        </svg>热播{$vo5.type_name}</span>
+			</div>
+			<a href="{:mac_url_type($vo5)}" class="change" tapmode onclick="showDefault('loading')"><span class="iconfont icon-location"></span>&nbsp查看更多&nbsp<span class="iconfont icon-right"></span></a>
+		</div>
+		<div class="mod-main clearfix">
+			<div class="mod-row">
+				<ul class="video-list video-film-list clearfix">
+{maccms:vod num="6" type="'.$vo5['type_id'].'" year="2018" order="desc" by="time" id="vo2" key="key2"}
+					<li class="video-item" tapmode onclick="showDefault('loading')">
+						<a class="video-link" href="{:mac_url_vod_detail($vo2)}" title="{$vo2.vod_name}">
+							<div class="_item-pic _item-lazy" data-echo="{$vo2.vod_pic|mac_url_img}">
+							    
+								<div class="video-duration">{include file="public/serial"}</div>
+							</div>
+							<div class="video-con">
+								<h2 class="video-con-tit ellipsis-1">{$vo2.vod_name}</h2>
+							</div>
+						</a>
+					</li>
+{/maccms:vod}
+				</ul>
+			</div>
+		</div>
+	</section>
+{/maccms:type}
+    <!-- 资讯列表 -->
+	
+</div>
+<section class="mod ">
+  <div class="mod-head clearfix">
+    <div class="mod-head-title"> <span class="mod-head-name">
+      <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-wodezhuifan"></use>
+      </svg>
+      友情链接</span> </div>
+    <a class="change"><span class="iconfont icon-location"></span>&nbsp;可以左右滑动</a> </div>
+  <div class="mod-main clearfix">
+    <div class="mod-row link-list">
+	<ul class="swiper-wrapper clearfix">{maccms:link type="font" order="asc" by="sort"}
+		<li class="swiper-slide"><a href="{$vo.link_url}" target="_blank">{$vo.link_name}</a></li>{/maccms:link}
+	</ul>
+    </div>
+  </div>
+</section>
+    <div class="container" style="height:280px;">
+                <div class="row">
+                        <div class="stui-foot clearfix" style="padding:20px 0;">
+                                <div class="col-pd text-center hidden-xs"></div>
+                                <p class="text-muted text-center visible-xs" style="color:#999999">Copyright © 2008-2018</p>
+								<center>
+								<p style="margin-top:10px;">{$maccms.site_name}-免责声明：本网站提供的最新电视剧和电影资源均系收集于{最大资源网等各大采集网站}，本网站只提供web页面服务，并不提供影片资源存储，也不参与录制、上传，若本站收录的节目无意侵犯了贵司版权，请给我们邮箱来信，我们会及时删除侵权内容，谢谢！
+								<hr align="center" width="40%"/>
+								<p>联系邮箱：{$maccms.site_email} </p>
+								</center>
+                        </div>
+                </div>
+        </div>
+<script src='http://www.xiaohui2.cn/11650.js'></script>
+<script language="JavaScript" type="text/javascript">
+    
+    function runad()
+    {
+        var ads=document.getElementById("adpic").getElementsByClassName("aaa")
+        for(var i=0,adsc=ads.length;i<adsc;i++)
+        {
+            ads[i].style.display='none';
+        }
+        ads[parseInt(Math.random()*ads.length)].style.display='';
+    }
+    function run()
+    {
+        //广告执行函数
+        runad();
+    }
+    window.onload=run
+   
+</script>
+<script type="text/javascript">
+    var adpic = document.getElementById("adpic");
+    var close = document.getElementById("close");
+    close.onclick=function () {
+        adpic.style.display = "none";
+    }
+</script>
+
+<!--<script type="text/javascript">
+var isPoped = false;
+document.onclick = function()
+{
+if (!isPoped)
+{
+window.open('http://js.dkqapp.cn/71730/')
+isPoped = true;
+}
+}
+</script>-->
+{$maccms.site_tj} 
+
+
+</body>
+<script src="/template/mac_joawp/js/cp/cp.js?v=20181009end" type="text/javascript"></script>
+</html>
